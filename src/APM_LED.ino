@@ -7,24 +7,13 @@
 Adafruit_NeoPixel LED = Adafruit_NeoPixel(LENGTH, LEDPIN, NEO_GRB + NEO_KHZ800);
 
 void setup() {
-  Serial.begin(9600);           // start serial for output
   Wire.begin(0x55);                // join i2c bus with address #8
   Wire.onReceive(receiveEvent); // register event
   LED.begin();
-  for (int i=0; i<LENGTH; i++) {
-    LED.setPixelColor(i,255,255,255);
-  }
-  delay(500);
-  LED.show();
-  for (int i=0; i<LENGTH; i++) {
-    LED.setPixelColor(i,0,0,0);
-  }
-  LED.show();
-
 }
 
 void loop() {
-  delay(1000);
+  delay(100);
 }
 
 // function that executes whenever data is received from master
@@ -39,9 +28,6 @@ void receiveEvent(int howMany) {
     if (sadr == 0x81) blue = data * 16;
     if (sadr == 0x82) green = data * 16;
     if (sadr == 0x83) red = data * 16;
-    Serial.print(sadr,HEX);
-    Serial.print(" ");
-    Serial.println(data,HEX);
   }
   for (int i=0; i<LENGTH; i++) {
     LED.setPixelColor(i,red,green,blue);
