@@ -4,4 +4,3 @@
 .gcc-flags.json
 dogit.sh
 platformio.ini
-.travis.yml
