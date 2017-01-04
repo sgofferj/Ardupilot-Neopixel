@@ -37,10 +37,12 @@ void receiveEvent(int howMany) {
   uint8_t blue;
   while (0 < Wire.available()) {
     uint8_t sadr = Wire.read();   // read subaddress
-    uint8_t data = Wire.read();   // read color value
-    if (sadr == 0x81) blue = data * 16;
-    if (sadr == 0x82) green = data * 16;
-    if (sadr == 0x83) red = data * 16;
+    if ( (sadr == 0x81) || (sadr == 0x82) || (sadr == 0x83) ) {
+      uint8_t data = Wire.read();   // read color value
+      if (sadr == 0x81) blue = data * 16;
+      if (sadr == 0x82) green = data * 16;
+      if (sadr == 0x83) red = data * 16;
+    }
   }
   for (int i=0; i<LENGTH; i++) {
     LED.setPixelColor(i,red,green,blue);
