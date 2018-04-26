@@ -39,6 +39,7 @@ void loop() {
 
 // function that executes whenever data is received from master
 // this function is registered as an event, see setup()
+
 void receiveEvent(int howMany) {
   uint8_t red;
   uint8_t green;
