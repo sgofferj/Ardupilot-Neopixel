@@ -2,6 +2,14 @@
 #include <Adafruit_NeoPixel.h>
 
 /*
+    Ardupilot-Neopixel - Use Adafruit Neopixel LEDs as external indicator
+                         LEDs for Ardupilot
+
+    Platform: Arduino Nano or Pro Mini
+    IDE: Atom / PlatformIO
+
+    Copyright (c) 2016 Stefan Gofferje. All rights reserved.
+
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation, either version 3 of the License, or
@@ -36,12 +44,14 @@ void receiveEvent(int howMany) {
   uint8_t green;
   uint8_t blue;
   while (0 < Wire.available()) {
-    uint8_t sadr = Wire.read();   // read subaddress
-    if ( (sadr == 0x81) || (sadr == 0x82) || (sadr == 0x83) ) {
-      uint8_t data = Wire.read();   // read color value
-      if (sadr == 0x81) blue = data * 16;
-      if (sadr == 0x82) green = data * 16;
-      if (sadr == 0x83) red = data * 16;
+    uint8_t data = Wire.read();   // read register
+    if (data == 0x01) {
+      data = Wire.read();   // read color value
+      blue = data << 4;
+      data = Wire.read();   // read color value
+      green = data << 4;
+      data = Wire.read();   // read color value
+      red = data << 4;
     }
   }
   for (int i=0; i<LENGTH; i++) {
